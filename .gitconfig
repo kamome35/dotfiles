@@ -1,16 +1,25 @@
 [user]
-        name = kyoronet
-        email = 42742556+kyoronet@users.noreply.github.com
+  name = kyoronet
+  email = 42742556+kyoronet@users.noreply.github.com
+
 [core]
 	editor = code --wait
+
 [diff]
-        tool = vscode
+  tool = vscode
+
 [difftool "vscode"]
-        cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
+  cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
+
 [merge]
 	tool = vscode
+
 [mergetool "vscode"]
         cmd = code --wait \"$MERGED\"
         trustExitCode = false
+
 [push]
 	default = simple
+
+[alias]
+	graph = log --graph --date-order -C -M --pretty=format:\"%h %ad [%an]%Cgreen%d%Creset %s\" --all --date=short
