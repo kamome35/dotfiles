@@ -59,8 +59,9 @@ export NVM_DIR="$HOME/.nvm"
 # kubernetes
 if type "kubectl" > /dev/null 2>&1; then
   source <(kubectl completion bash)
+  alias k='kubectl'
+  complete -o default -F __start_kubectl k
 fi
 if type "helm" > /dev/null 2>&1; then
   source <(helm completion bash)
 fi
-alias k='kubectl'
