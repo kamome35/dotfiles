@@ -2,8 +2,8 @@
 
 # git prompt
 # usage: curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
-if [ -f git-prompt.sh ]; then
-	. git-prompt.sh
+if [ -f ~/.git-prompt.sh ]; then
+	. ~/.git-prompt.sh
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
