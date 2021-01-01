@@ -15,10 +15,10 @@ elif has "git"; then
     git clone --recursive $DOTREMOTE.git "$DOTPATH"
 elif has "curl"; then
     echo $DOTREMOTE/archive/master.tar.gz
-    curl -L "$DOTREMOTE/archive/master.tar.gz" | file
+    curl -L "$DOTREMOTE/archive/master.tar.gz" | tar zxv
     mv -f dotfiles-master "$DOTPATH"
 elif has "wget"; then
-    curl -L "$DOTREMOTE/archive/master.tar.gz" | tar zxv
+    wget -qO - "$DOTREMOTE/archive/master.tar.gz" | tar zxv
     mv -f dotfiles-master "$DOTPATH"
 else
     die "git or curl or wget required"
