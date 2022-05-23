@@ -49,14 +49,16 @@ fi
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# デフォルトエディタをvscodeに設定
 export EDITOR="code --wait"
 
+# NVMをコマンドの設定
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-# kubernetes
+# kubernetes関連のコマンド設定
 if type "kubectl" > /dev/null 2>&1; then
   source <(kubectl completion bash)
   alias k='kubectl'
@@ -66,12 +68,14 @@ if type "helm" > /dev/null 2>&1; then
   source <(helm completion bash)
 fi
 
-# # ssh-agent
-# if [ -f ~/.ssh-agent ]; then
-#     . ~/.ssh-agent
-# fi
-# if [ -z "$SSH_AGENT_PID" ] || ! kill -0 $SSH_AGENT_PID; then
-#     ssh-agent > ~/.ssh-agent
-#     . ~/.ssh-agent
-# fi
-# ssh-add -l >& /dev/null || ssh-add
+# SSH転送エージェント設定
+SSH_AGENT_FILE=$HOME/.ssh-agent
+if [ ! -f $SSH_AGENT_FILE ]; then
+  ssh-agent > $SSH_AGENT_FILE
+fi
+if [ -z "$SSH_AGENT_PID" ] || ! kill -0 $SSH_AGENT_PID; then
+  source $SSH_AGENT_FILE > /dev/null
+fi
+if ! ssh-add -l > /dev/null; then
+  ssh-add 2> /dev/null
+fi
