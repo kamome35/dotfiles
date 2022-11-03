@@ -68,14 +68,8 @@ if type "helm" > /dev/null 2>&1; then
   source <(helm completion bash)
 fi
 
-# SSH転送エージェント設定
-SSH_AGENT_FILE=$HOME/.ssh-agent
-if [ ! -f $SSH_AGENT_FILE ]; then
-  ssh-agent > $SSH_AGENT_FILE
-fi
-if [ -z "$SSH_AGENT_PID" ] || ! kill -0 $SSH_AGENT_PID; then
-  source $SSH_AGENT_FILE > /dev/null
-fi
-if ! ssh-add -l > /dev/null; then
-  ssh-add 2> /dev/null
-fi
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/google-cloud-sdk/path.bash.inc' ]; then . '/usr/local/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/google-cloud-sdk/completion.bash.inc' ]; then . '/usr/local/google-cloud-sdk/completion.bash.inc'; fi
