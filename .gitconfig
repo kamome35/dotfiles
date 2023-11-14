@@ -3,7 +3,7 @@
   email = 42742556+kamome35@users.noreply.github.com
 
 [core]
-	editor = code --wait
+  editor = code --wait
 
 [diff]
   tool = vscode
@@ -12,14 +12,14 @@
   cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 
 [merge]
-	tool = vscode
+  tool = vscode
 
 [mergetool "vscode"]
-        cmd = code --wait \"$MERGED\"
-        trustExitCode = false
+  cmd = code --wait \"$MERGED\"
+  trustExitCode = false
 
 [push]
-	default = simple
+  default = simple
 
 [alias]
-	graph = log --graph --date-order -C -M --pretty=format:\"%h %ad [%an]%Cgreen%d%Creset %s\" --all --date=short
+  graph = log --graph --date-order -C -M --pretty=format:\"%h %ad [%an]%Cgreen%d%Creset %s\" --all --date=short
