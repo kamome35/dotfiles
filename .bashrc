@@ -2,28 +2,29 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+  *) return;;
 esac
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+  PATH="$HOME/bin:$PATH"
 fi
-
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
+  PATH="$HOME/.local/bin:$PATH"
+fi
+if command -v go >/dev/null; then
+  PATH="$PATH:$(go env GOPATH)/bin"
 fi
 
 # Load the shell dotfiles, and then some:
 for file in ~/.{bash_prompt,bash_aliases}; do
-	[ -s "$file" ] && \. "$file";
+  [ -s "$file" ] && \. "$file";
 done;
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
-#umask 022
+umask 027
 
 # bash history
 shopt -s histappend
@@ -39,11 +40,11 @@ shopt -s checkwinsize
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
 
 # make less more friendly for non-text input files, see lesspipe(1)
@@ -51,3 +52,15 @@ fi
 
 # デフォルトエディタをvscodeに設定
 export EDITOR="code --wait"
+
+# SSHエージェント設定
+SSH_AGENT_FILE=$HOME/.ssh-agent
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+  ssh-agent > $SSH_AGENT_FILE
+fi
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval "$(<$SSH_AGENT_FILE)" > /dev/null
+fi
+if ! ssh-add -L > /dev/null; then
+  ssh-add > /dev/null 2>&1
+fi
