@@ -1,4 +1,4 @@
 ## usage
 ```sh
-curl -o- https://raw.githubusercontent.com/kyoronet/dotfiles/master/install.sh | bash
+curl -o- https://raw.githubusercontent.com/kamome35/dotfiles/master/install.sh | bash
 ```

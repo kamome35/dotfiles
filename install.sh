@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # env
-DOTREMOTE=https://github.com/kyoronet/dotfiles
+DOTREMOTE=https://github.com/kamome35/dotfiles
 DOTPATH=~/.dotfiles
 
 # functions
