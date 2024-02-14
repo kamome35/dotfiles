@@ -54,12 +54,16 @@ fi
 export EDITOR="code --wait"
 
 # SSHエージェント設定
-SSH_AGENT_FILE=$HOME/.ssh-agent
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-  ssh-agent > $SSH_AGENT_FILE
-fi
-if [ -z "$SSH_AUTH_SOCK" ] ; then
-  eval "$(<$SSH_AGENT_FILE)" > /dev/null
+SSH_AGENT_FILE="$HOME/.ssh-agent"
+if [ ! -S "$SSH_AUTH_SOCK" ]; then
+  if [ -f "$SSH_AGENT_FILE" ]; then
+    eval "$(<$SSH_AGENT_FILE)" > /dev/null
+  fi
+  # 有効なSSHエージェントがない場合は、新しいエージェントを起動
+  if [ ! -S "$SSH_AUTH_SOCK" ]; then
+    ssh-agent > "$SSH_AGENT_FILE"
+    eval "$(<$SSH_AGENT_FILE)" > /dev/null
+  fi
 fi
 if ! ssh-add -L > /dev/null; then
   ssh-add > /dev/null 2>&1
