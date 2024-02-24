@@ -23,4 +23,4 @@
 
 [alias]
   # graph = log --graph --date-order -C -M --pretty=format:'%Creset%C(yellow)%h%Creset %C(green)%cn%Creset %C(cyan)%d%Creset %s %C(green)%ad %cr%Creset' --all --date=format:'%Y-%m-%d %H:%M'
-  graph = log --graph --date-order -C -M --pretty=format:'%C(cyan reverse)%d%Creset%C(yellow reverse) %h% Creset %C(green reverse) %an %Creset %C(cyan)%ar%Creset%n%s%n%n%w(80,2,2)%b' --all --date=format:'%Y-%m-%d %H:%M'
+  graph = log --graph --date-order -C -M --pretty=format:'%C(cyan reverse)%d%Creset%C(yellow reverse) %h% Creset %C(green reverse) %an %Creset %C(black)%ad (%ar)%Creset%n%s%n%n%w(80,2,2)%b' --all --date=format:'%Y-%m-%d %H:%M'
