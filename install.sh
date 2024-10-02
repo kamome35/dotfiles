@@ -6,6 +6,7 @@ set -e
 # env
 DOTPATH="${DOTPATH:-$HOME/.dotfiles}"
 DOTREMOTE="${DOTREMOTE:-https://github.com/kamome35/dotfiles}"
+BRANCH="${BRANCH:-main}"
 
 # functions
 die() { echo "$*" 1>&2 ; exit 1; }
@@ -19,14 +20,14 @@ echo "Cloning dotfiles repository..."
 if [ -d "$DOTPATH" ]; then
   :
 elif has "git"; then
-  git clone --single-branch $DOTREMOTE.git "$DOTPATH"
+  git clone --single-branch --branch $BRANCH $DOTREMOTE.git "$DOTPATH"
 elif has "curl"; then
-  echo $DOTREMOTE/archive/master.tar.gz
-  curl -L "$DOTREMOTE/archive/master.tar.gz" | tar zxv
-  mv -f dotfiles-master "$DOTPATH"
+  echo $DOTREMOTE/archive/${BRANCH}.tar.gz
+  curl -L "$DOTREMOTE/archive/${BRANCH}.tar.gz" | tar zxv
+  mv -f dotfiles-${BRANCH} "$DOTPATH"
 elif has "wget"; then
-  wget -qO - "$DOTREMOTE/archive/master.tar.gz" | tar zxv
-  mv -f dotfiles-master "$DOTPATH"
+  wget -qO - "$DOTREMOTE/archive/${BRANCH}.tar.gz" | tar zxv
+  mv -f dotfiles-${BRANCH} "$DOTPATH"
 else
   die "Error: git, curl, or wget is required to clone the repository."
 fi
