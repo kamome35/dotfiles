@@ -1,18 +1,25 @@
 #!/bin/bash
 
+# エラーハンドリング
+set -e
+
 # env
-DOTREMOTE=https://github.com/kamome35/dotfiles
-DOTPATH=~/.dotfiles
+DOTPATH="${DOTPATH:-$HOME/.dotfiles}"
+DOTREMOTE="${DOTREMOTE:-https://github.com/kamome35/dotfiles}"
 
 # functions
 die() { echo "$*" 1>&2 ; exit 1; }
 has() { type "$1" > /dev/null 2>&1; }
 
-# remote install
+# ヘッダー
+echo "Starting installation..."
+
+# dotfilesリポジトリのクローン
+echo "Cloning dotfiles repository..."
 if [ -d "$DOTPATH" ]; then
   :
 elif has "git"; then
-  git clone --recursive $DOTREMOTE.git "$DOTPATH"
+  git clone --single-branch $DOTREMOTE.git "$DOTPATH"
 elif has "curl"; then
   echo $DOTREMOTE/archive/master.tar.gz
   curl -L "$DOTREMOTE/archive/master.tar.gz" | tar zxv
@@ -21,17 +28,25 @@ elif has "wget"; then
   wget -qO - "$DOTREMOTE/archive/master.tar.gz" | tar zxv
   mv -f dotfiles-master "$DOTPATH"
 else
-  die "git or curl or wget required"
+  die "Error: git, curl, or wget is required to clone the repository."
 fi
 
-# local install
-cd $DOTPATH
+pushd "$DOTPATH" > /dev/null
 if [ $? -ne 0 ]; then
-  die "not found: $DOTPATH"
+  die "Error: not found '$DOTPATH'"
 fi
-for file in .??*
-do
+
+# シンボリックリンクを作成
+echo "Creating symbolic links for dotfiles..."
+for file in .??*; do
   [ "$file" = ".git" ] && continue
 
   ln -snfv "$DOTPATH/$file" "$HOME/$file"
 done
+
+# シェル設定を再読み込み
+echo "Reloading shell configuration..."
+source ~/.bashrc
+
+# 完了メッセージ
+echo "Installation complete!"
